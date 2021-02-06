@@ -1,0 +1,21 @@
+name: CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  sam-validate:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - run: sam validate
+
+  test:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: |
+        pip install -r tests/requirements.txt --user
+        python -m pytest tests/unit -v
